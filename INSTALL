@@ -1,0 +1,6 @@
+To install you will need libftdi1.0... not the libftdi provided by ubuntu repositories (0.2)
+you will also need to install cmake, gcc, build-essentials, etc.
+
+you can download libftdi1.0 from http://www.intra2net.com/en/developer/libftdi/, it has its own installation instructions.
+
+compiling the program, for now, is accomplished with compile.sh.  Once we move up to 2 source files we should change to a makefile.
