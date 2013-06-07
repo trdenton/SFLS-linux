@@ -1,0 +1,5 @@
+SFLS-linux is the Super Fast Logic Sniffer linux development branch
+
+Our work thus far utilizes the UM232H from ftdi to read in digital sample data.
+
+The linxu branch utilizes ilbftdi in lieu of FTDI's libd2xx libraries, as FTDI's linux drivers do not yet support the 232H
