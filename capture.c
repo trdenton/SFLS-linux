@@ -20,7 +20,7 @@ void sigintHandler(int signum)
 }
 int main(void)
 {
-
+		//set interrupt handler for CTRL+C
     signal(SIGINT,sigintHandler);
     int ret;
     struct ftdi_context *ftdi;
