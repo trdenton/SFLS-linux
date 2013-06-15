@@ -9,6 +9,10 @@ This program is distributed under the GPL, version 2
 #include <stdlib.h>
 #include <ftdi.h>
 #include <signal.h>
+#include <sys/time.h>
+
+#define NUM_READS 1000
+
 
 int quit = 0;			//variable that gets set to 1 when we are ready to exit
 
@@ -98,12 +102,15 @@ printf("ret: %d	val: %d\n",ret,val);
 printf("does val match %d?\n",CBUSH_CLK30);
 */
 	unsigned char buf[1024];
-	int its = 10000;
-	while (quit == 0)
+	int its = NUM_READS;
+	struct timeval t1;
+	struct timeval t2;
+	gettimeofday(&t1,NULL);
+	while (quit == 0 && its != 0)
 	{
 
 		//ret = ftdi_read_data(&ftdic,&buf,1);
-		if ((ret = ftdi_read_data (ftdi, buf, 3)) < 0)
+		if ((ret = ftdi_read_data (ftdi, buf, 1024)) < 0)
 		{
 			fprintf (stderr, "unable to read ftdi device: %d (%s)\n", ret,
 			ftdi_get_error_string (ftdi));
@@ -111,9 +118,14 @@ printf("does val match %d?\n",CBUSH_CLK30);
 		}
 		else
 		{
-			printf ("Read in %x %x %x\n", buf[0], buf[1], buf[2]);
+			its--;
+			//printf ("Read in %x %x %x\n", buf[0], buf[1], buf[2]);
 		}
 	}
+	gettimeofday(&t2,NULL);
+	long useconds = (t2.tv_sec - t1.tv_sec)*1000000 + (t2.tv_usec - t1.tv_usec);
+	printf ( "Capture took %lu uS for %d reads\n",  useconds, NUM_READS*1024);
+	printf ( "Speed... %f MB/s", ((float)NUM_READS*1000000)/(float)(useconds*1024 ));
 	if ((ret = ftdi_usb_close (ftdi)) < 0)
 	{
 		fprintf (stderr, "unable to close ftdi device: %d (%s)\n", ret,
