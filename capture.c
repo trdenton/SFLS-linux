@@ -99,7 +99,6 @@ printf("does val match %d?\n",CBUSH_CLK30);
 */
 	unsigned char buf[1024];
 	int its = 10000;
-	return;
 	while (quit == 0)
 	{
 
